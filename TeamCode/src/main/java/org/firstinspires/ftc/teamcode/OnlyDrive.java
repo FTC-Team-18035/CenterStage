@@ -23,6 +23,7 @@
         private double          denominator = 1;        // declare motor power calculation variable
         private int             precision = 2;          // chassis motor power reduction factor 1 = full 2 = half power 3 = third power 4 = quarter power
                                                         // ** 230118 set default speed to half power
+        private boolean         isClosed = false;
 
 
         @Override
@@ -34,6 +35,7 @@
             DcMotor Bleft = hardwareMap.dcMotor.get("Bleft");
             DcMotor Fright = hardwareMap.dcMotor.get("Fright");
             DcMotor Bright = hardwareMap.dcMotor.get("Bright");
+            Servo Claw = hardwareMap.servo.get("Claw");
 
             // Reverse the right side motors
             // Reverse left motors if you are using NeveRests
@@ -46,6 +48,8 @@
             Fright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             Bleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             Bright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+            Claw.setPosition(0);
             waitForStart();
 
             //if (isStopRequested()) return;
@@ -72,6 +76,16 @@
                 backRightPower = (y + x - rx) / denominator;
 
                 // issue chassis power for movement
+                if(gamepad1.a && !isClosed){
+                    Claw.setPosition(1);
+                    isClosed = true;
+                    sleep(500);
+                }
+                else if(gamepad1.a && isClosed){
+                    Claw.setPosition(0);
+                    isClosed = false;
+                    sleep(500);
+                }
 
                 Fleft.setPower(frontLeftPower);
                 Bleft.setPower(backLeftPower);
