@@ -31,7 +31,7 @@
             // Declare our motors
             // Make sure your ID's match your configuration
 
-            DcMotorSimple Fleft =  hardwareMap.get(DcMotorSimple.class,"Fleft");
+            DcMotor Fleft = hardwareMap.dcMotor.get("Fleft")
             DcMotor Bleft = hardwareMap.dcMotor.get("Bleft");
             DcMotor Fright = hardwareMap.dcMotor.get("Fright");
             DcMotor Bright = hardwareMap.dcMotor.get("Bright");
@@ -40,11 +40,11 @@
             // Reverse the right side motors
             // Reverse left motors if you are using NeveRests
 
-            Fleft.setDirection(DcMotorSimple.Direction.REVERSE);
+           // Fleft.setDirection(DcMotorSimple.Direction.REVERSE);
             Fright.setDirection(DcMotorSimple.Direction.REVERSE);
             Bright.setDirection(DcMotorSimple.Direction.REVERSE);
             
-            //Fleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);  // motor controller has a physical switch
+            Fleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);  // motor controller has a physical switch
             Fright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             Bleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             Bright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
