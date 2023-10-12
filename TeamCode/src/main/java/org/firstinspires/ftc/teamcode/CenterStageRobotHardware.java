@@ -14,7 +14,7 @@ public class CenterStageRobotHardware {
 
 
     //We create space holders here. So we can declare in the init function
-    public DcMotor FrontLeft;
+    public DcMotorSimple FrontLeft;
     public DcMotor FrontRight;
     public DcMotor BackLeft;
     public DcMotor BackRight;
@@ -29,7 +29,7 @@ public class CenterStageRobotHardware {
 
     public void Init(HardwareMap map){
         //We assign the actual motors to the variables we created above
-        FrontLeft = map.get(DcMotor.class, "Fleft");
+        FrontLeft = map.get(DcMotorSimple.class, "Fleft");
         FrontRight = map.get(DcMotor.class, "Fright");
         BackRight = map.get(DcMotor.class, "Bright");
         BackLeft = map.get(DcMotor.class, "Bleft");
@@ -55,7 +55,7 @@ public class CenterStageRobotHardware {
         BackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         FrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        FrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //FrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //Sets the Claw to open in Initialization
         Claw.setPosition(0);

@@ -31,7 +31,7 @@
             // Declare our motors
             // Make sure your ID's match your configuration
 
-            DcMotor Fleft = hardwareMap.dcMotor.get("Fleft")
+            DcMotor Fleft = hardwareMap.dcMotor.get("Fleft");
             DcMotor Bleft = hardwareMap.dcMotor.get("Bleft");
             DcMotor Fright = hardwareMap.dcMotor.get("Fright");
             DcMotor Bright = hardwareMap.dcMotor.get("Bright");
