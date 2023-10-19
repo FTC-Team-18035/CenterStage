@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -26,48 +28,67 @@ public class AprilTagTestAuto1 extends LinearOpMode {
      */
     private VisionPortal visionPortal;
 
-    public int ATscan;
+    int ATscan = 0;
 
     @Override
     public void runOpMode() {
+        telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
+        telemetry.addData(">", "Touch Play to start OpMode");
+        telemetry.update();
+
+        DcMotor Fleft = hardwareMap.dcMotor.get("Fleft");
+        DcMotor Fright = hardwareMap.dcMotor.get("Fright");
+        DcMotor Bleft = hardwareMap.dcMotor.get("Bleft");
+        DcMotor Bright = hardwareMap.dcMotor.get("Bright");
+
+
+        Fright.setDirection(DcMotorSimple.Direction.REVERSE);
+        Bright.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        Fleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Fright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Bleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Bright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+
+        waitForStart();
         if (opModeIsActive()) {
             while (opModeIsActive()) {
-                initAprilTag();
 
                 // Wait for the DS start button to be touched.
-                telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
-                telemetry.addData(">", "Touch Play to start OpMode");
+                telemetryAprilTag();
+
+                // Push telemetry to the Driver Station.
                 telemetry.update();
-                waitForStart();
 
-                if (opModeIsActive()) {
-                    while (opModeIsActive()) {
+                // Save CPU resources; can resume streaming when needed.
+                // if (gamepad1.dpad_down) {
+                //   visionPortal.stopStreaming();
+                //} else if (gamepad1.dpad_up) {
+                //  visionPortal.resumeStreaming();
+                // }
 
+                // Share the CPU.
+                // sleep(20);
 
-
-                        telemetryAprilTag();
-
-                        // Push telemetry to the Driver Station.
-                        telemetry.update();
-
-                        // Save CPU resources; can resume streaming when needed.
-                        // if (gamepad1.dpad_down) {
-                        //   visionPortal.stopStreaming();
-                        //} else if (gamepad1.dpad_up) {
-                        //  visionPortal.resumeStreaming();
-                        // }
-
-                        // Share the CPU.
-                        // sleep(20);
-
-                        if(ATscan == 1){
-
-                        }
-                    }
+                if(ATscan == 1){
+                    telemetry.addData("Scanned 1", ATscan);
+                    Fleft.setPower(1);
+                    visionPortal.close();
                 }
+                else if(ATscan == 2){
+                    telemetry.addData("Scanned 2", ATscan);
+                    Fright.setPower(1);
+                    visionPortal.close();
+                }
+                else{
+                    initAprilTag();
+
+            }
 
                 // Save more CPU resources when camera is no longer needed.
-                visionPortal.close();
+
 
             }   // end method runOpMode()
 
