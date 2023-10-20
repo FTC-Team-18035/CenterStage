@@ -5,6 +5,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+
+// Please add REM statements to the code blocks - it will give clarity to me and YOU as to what you are doing or attempting to do with each statement and method call
+// Sorry to keep beating the same drum, but I think it will be clear to you what is NOT happening when you state what is intended to happen :)
+// It's standard coding procedure for newbies and veterans for a good reason....
+
+
 @TeleOp(name = "3 Button Claw")
 public class ThreeButtonClawTest extends LinearOpMode {
 
