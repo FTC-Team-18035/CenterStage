@@ -38,7 +38,7 @@ public class ThreeButtonClawTest extends LinearOpMode {
             if(gamepad1.a && !isClosed1){//This checks to see if the "a" button is pressed and if claw1 is open
                 claw1.setPosition(1);//This closes claw1
                 isClosed1 = true;//This sets this to true to keep stored that claw1 is now closed
-                close1.startTime();//This starts the timer since the "a" button was just pressed
+                close1.reset();//This starts the timer since the "a" button was just pressed
             }
             else if(gamepad1.a && isClosed1 && close1.milliseconds() > 300){//This checks to see if it has been 300 milliseconds since the "a" button was pressed and that claw1 is closed and if the "a" button is pressed
                 claw1.setPosition(0);//This opens claw1
@@ -48,7 +48,7 @@ public class ThreeButtonClawTest extends LinearOpMode {
             if(gamepad1.b && !isClosed2){//This checks to see if the "b" button is pressed and if claw2 is open
                 claw2.setPosition(1);//This closes claw2
                 isClosed2 = true;//This sets this to true to keep stored that claw2 is now closed
-                close2.startTime();//This starts the timer since the "b" button was just pressed
+                close2.reset();//This starts the timer since the "b" button was just pressed
             }
             else if(gamepad1.b && isClosed2 && close2.milliseconds() > 300){//This checks to see if it has been 300 milliseconds since the "b" button was pressed and that claw2 is closed and if the "b" button is pressed
                 claw2.setPosition(0);//This opens claw2
@@ -60,7 +60,7 @@ public class ThreeButtonClawTest extends LinearOpMode {
                 claw2.setPosition(1);//This closes claw2
                 isClosed1 = true;//This sets this to true to keep stored that claw1 is now closed
                 isClosed2 = true;//This sets this to true to keep stored that claw2 is now closed
-                DoubleClose.startTime();//This starts the timer since the "x" button was just pressed
+                DoubleClose.reset();//This starts the timer since the "x" button was just pressed
             }
             else if(gamepad1.x && isClosed1 || isClosed2 && DoubleClose.milliseconds() > 300){//This checks to see if it has been 300 milliseconds since the "x" button was pressed and that claw1 and claw2 are closed and if the "x" button is pressed
                 claw1.setPosition(0);//This opens claw1

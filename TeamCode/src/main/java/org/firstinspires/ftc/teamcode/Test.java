@@ -19,10 +19,12 @@ public class Test extends LinearOpMode {
         Servo claw = hardwareMap.servo.get("Claw");
         Servo drone = hardwareMap.servo.get("Drone");
 
+        //This reverses the motor directions
         lift1.setDirection(DcMotorSimple.Direction.REVERSE);
         lift2.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
+        //Here we set the motors to Brake mode to allow the lift to stay up when not in motion
         lift1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
