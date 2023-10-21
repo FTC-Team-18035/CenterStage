@@ -29,7 +29,7 @@ public class OneButtonClawTest extends LinearOpMode {
                 //If the answer is 0 it runs the code here
                 case 0:
                     if(gamepad1.a){//This checks to see if the "a" button has been pressed on gamepad1
-                        ClawTime.startTime();//This starts the timer since the "a" button was just pressed
+                        ClawTime.reset();//This starts the timer since the "a" button was just pressed
                         claw1.setPosition(1);//this closes claw 1
                         TimesPressed++;//This adds one to the variable to keep track of times the "a" button has been pressed
                     }
@@ -43,7 +43,7 @@ public class OneButtonClawTest extends LinearOpMode {
                 //If the answer is 2 it runs the code here
                 case 2:
                     if(gamepad1.a){//This checks to see if the "a" button has been pressed on gamepad1
-                        ClawTime.startTime();//This starts the timer since the "a" button was just pressed
+                        ClawTime.reset();//This starts the timer since the "a" button was just pressed
                         claw2.setPosition(1);//this closes claw 2
                         TimesPressed++;//This adds one to the variable to keep track of times the "a" button has been pressed
                     }
@@ -57,7 +57,7 @@ public class OneButtonClawTest extends LinearOpMode {
                 //If the answer is 4 it runs the code here
                 case 4:
                     if(gamepad1.a){//This checks to see if the "a" button has been pressed on gamepad1
-                        ClawTime.startTime();//This starts the timer since the "a" button was just pressed
+                        ClawTime.reset();//This starts the timer since the "a" button was just pressed
                         claw1.setPosition(1);//this closes claw 1
                         claw2.setPosition(1);//this closes claw 2
                         TimesPressed++;//This adds one to the variable to keep track of times the "a" button has been pressed
