@@ -3,13 +3,14 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "Test Motors")//This line declares this file as a TeleOp and sets the names to "Test Motors"
 public class Test extends LinearOpMode {
 
     //Declare motors here
-    private double LiftPower = 0.5;//This is to make sure the 2 lift motors will always run at the same speed
+    private double LiftPower = 0.7;//This is to make sure the 2 lift motors will always run at the same speed
     @Override
     public void runOpMode(){
         //We declare motors/servos here. We also insert the names of the motors that are configured in the driver station
@@ -17,6 +18,13 @@ public class Test extends LinearOpMode {
         DcMotor lift2 = hardwareMap.dcMotor.get("Lift2");
         Servo claw = hardwareMap.servo.get("Claw");
         Servo drone = hardwareMap.servo.get("Drone");
+
+        lift1.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift2.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
+        lift1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         waitForStart();
         //Everything that is in this while loop runs until you hit stop on the driver station
