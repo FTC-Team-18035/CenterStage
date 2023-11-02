@@ -8,7 +8,7 @@
     import com.qualcomm.robotcore.util.ElapsedTime;
 
     @TeleOp(name = "DRIVE_LIFT")
-    public class OnlyDrive extends LinearOpMode {
+    public class DRIVE_LIFT extends LinearOpMode {
         // variables
         static final double     COUNTS_PER_MOTOR_REV    = 288 ;    // eg: TETRIX Motor Encoder
         static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
@@ -39,8 +39,8 @@
             DcMotor Fright = hardwareMap.dcMotor.get("Fright");
             DcMotor Bright = hardwareMap.dcMotor.get("Bright");
             Servo Claw = hardwareMap.servo.get("Claw");
-            DcMotor "******" = hardwareMap.dcMotor.get("*****");    // Lift Motors *******
-            DcMotor "******" = hardwareMap.dcMotor.get("*****");    // Lift Motors *******
+            //DcMotor "******" = hardwareMap.dcMotor.get("*****");    // Lift Motors *******
+            //DcMotor "******" = hardwareMap.dcMotor.get("*****");    // Lift Motors *******
 
 
 
