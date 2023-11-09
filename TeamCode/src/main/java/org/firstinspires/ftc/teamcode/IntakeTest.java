@@ -225,14 +225,16 @@
 
 */
 
-                if (gamepad1.a) {
+                if (gamepad1.a && !IntakeRunning && IntakeTime.seconds() > 0.5) {
                     IntakeMotor.setPower(1);
                     IntakeServo.setPower(1);
+                    IntakeRunning = true;
                     IntakeTime.reset();
                 }
-                else if (gamepad1.a && IntakeTime.seconds() > 0.5) {
+                else if (gamepad1.a && IntakeRunning && IntakeTime.seconds() > 0.5) {
                     IntakeMotor.setPower(0);
                     IntakeServo.setPower(0);
+                    IntakeRunning = false;
                     IntakeTime.reset();
                 }
 
@@ -241,9 +243,11 @@
                     if (ReverseIntakeTime.seconds() > 0.25) {
                         IntakeMotor.setPower(-1);
                         IntakeServo.setPower(-1);
+                        IntakeRunning = true;
                     } else {
                         IntakeMotor.setPower(0);
                         IntakeServo.setPower(0);
+                        IntakeRunning = false;
                     }
                 } else {
                     ReverseIntakeTime.reset();
