@@ -2,13 +2,14 @@
 
     import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
     import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+    import com.qualcomm.robotcore.hardware.CRServo;
     import com.qualcomm.robotcore.hardware.DcMotor;
     import com.qualcomm.robotcore.hardware.DcMotorSimple;
     import com.qualcomm.robotcore.hardware.Servo;
     import com.qualcomm.robotcore.util.ElapsedTime;
 
-    @TeleOp(name = "MAIN_DRIVE")
-    public class MainTeleOp_Mak1 extends LinearOpMode {
+    @TeleOp(name = "Intake_Test")
+    public class IntakeTest extends LinearOpMode {
         // variables
         static final double     COUNTS_PER_MOTOR_REV    = 288 ;    // eg: TETRIX Motor Encoder
         static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
@@ -49,29 +50,28 @@
             // Declare our motors
             // Make sure your ID's match your configuration
 
-            DcMotor Fleft = hardwareMap.dcMotor.get("Fleft");
-            DcMotor Bleft = hardwareMap.dcMotor.get("Bleft");
-            DcMotor Fright = hardwareMap.dcMotor.get("Fright");
-            DcMotor Bright = hardwareMap.dcMotor.get("Bright");
-            Servo Claw1 = hardwareMap.servo.get("Claw1");
-            Servo Claw2 = hardwareMap.servo.get("Claw2");
-            Servo Drone = hardwareMap.servo.get("Drone");
-            DcMotor LeftLiftMotor = hardwareMap.dcMotor.get("Lift1");    // Lift Motors *******
-            DcMotor RightLiftMotor = hardwareMap.dcMotor.get("Lift2");    // Lift Motors *******
-            DcMotor ArmRotationMotor = hardwareMap.dcMotor.get("ArmRotationMotor");
+            // DcMotor Fleft = hardwareMap.dcMotor.get("Fleft");
+            //   DcMotor Bleft = hardwareMap.dcMotor.get("Bleft");
+            // DcMotor Fright = hardwareMap.dcMotor.get("Fright");
+            //  DcMotor Bright = hardwareMap.dcMotor.get("Bright");
+            // Servo Claw1 = hardwareMap.servo.get("Claw1");
+            // Servo Claw2 = hardwareMap.servo.get("Claw2");
+            //  Servo Drone = hardwareMap.servo.get("Drone");
+            //  DcMotor LeftLiftMotor = hardwareMap.dcMotor.get("Lift1");    // Lift Motors *******
+            //   DcMotor RightLiftMotor = hardwareMap.dcMotor.get("Lift2");    // Lift Motors *******
+            //   DcMotor ArmRotationMotor = hardwareMap.dcMotor.get("ArmRotationMotor");
             DcMotor IntakeMotor = hardwareMap.dcMotor.get("IntakeMotor");
-            Servo IntakeServo = hardwareMap.servo.get("IntakeServo");
-
-
+            CRServo IntakeServo = hardwareMap.crservo.get("IntakeServo");
 
 
             // Reverse the right side motors
             // Reverse left motors if you are using NeveRests
 
-           // Fleft.setDirection(DcMotorSimple.Direction.REVERSE);
-            Fright.setDirection(DcMotorSimple.Direction.REVERSE);
-            Bright.setDirection(DcMotorSimple.Direction.REVERSE);
-
+            // Fleft.setDirection(DcMotorSimple.Direction.REVERSE);
+           //Fright.setDirection(DcMotorSimple.Direction.REVERSE);
+            //Bright.setDirection(DcMotorSimple.Direction.REVERSE);
+            IntakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+/*
             LeftLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             RightLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -79,17 +79,18 @@
             LeftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             // Lift Motors direction?? *******
-            
+
             Fleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             Fright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             Bleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             Bright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             LeftLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            RightLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            RightLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);*/
+            IntakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             // Lift Motors behavior *******
-            RightLiftMotor.setTargetPosition(0);
+            /*RightLiftMotor.setTargetPosition(0);
             LeftLiftMotor.setTargetPosition(0);
             RightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             LeftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -101,7 +102,7 @@
 
 // Beginning of code to interpret operator controlled movements
 
-
+*/
             waitForStart();
 
             //if (isStopRequested()) return;
@@ -110,21 +111,21 @@
 
                 // check for driving input
 
-                double y = gamepad1.left_stick_y; // Remember, this is reversed!
-                double x = -gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-                double rx = -gamepad1.right_stick_x;
+                //double y = gamepad1.left_stick_y; // Remember, this is reversed!
+                // double x = -gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+                //  double rx = -gamepad1.right_stick_x;
 
-                telemetry.update();
+                // telemetry.update();
 
                 // calculate motor movement math and adjust according to lift height or manual precision mode selection
 
-                denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-                if(gamepad1.left_bumper){
-                    precision = 4;            // reset default speed to half power
-                }
-                else{precision = 2;}
+                //  denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+                //  if(gamepad1.left_bumper){
+                //       precision = 4;            // reset default speed to half power
+                //   }
+                //   else{precision = 2;}
 
-
+/*
                 denominator = denominator * precision;
                 frontLeftPower = (y + x + rx) / denominator;
                 backLeftPower = (y - x + rx) / denominator;
@@ -187,7 +188,7 @@
                 /*if((gamepad2.dpad_up) && (LiftTarget + 10) < MAX_LIFT_HEIGHT){
                     LiftTarget = LiftTarget + 1;
                 }*/
-                if(gamepad2.dpad_up && RightLiftMotor.getCurrentPosition() < MAX_LIFT_HEIGHT - 10){
+                /*if(gamepad2.dpad_up && RightLiftMotor.getCurrentPosition() < MAX_LIFT_HEIGHT - 10){
                     LiftTarget = LiftTarget + 10;
                 }
                 if(gamepad2.dpad_down && RightLiftMotor.getCurrentPosition() > 10){
@@ -222,37 +223,41 @@
                 else{BeganPressed = false;}
                 // issue chassis power for movement
 
-                if(gamepad1.a && !IntakeRunning){
+*/
+
+                if (gamepad1.a) {
                     IntakeMotor.setPower(1);
-                    IntakeRunning = true;
+                    IntakeServo.setPower(1);
                     IntakeTime.reset();
                 }
-                if(gamepad1.a && IntakeTime.seconds() > 0.25){
+                else if (gamepad1.a && IntakeTime.seconds() > 0.5) {
                     IntakeMotor.setPower(0);
-                    IntakeRunning = false;
+                    IntakeServo.setPower(0);
                     IntakeTime.reset();
                 }
 
 
-                if(gamepad1.x){
-                    if(ReverseIntakeTime.seconds() > 0.25){
+                if (gamepad1.x) {
+                    if (ReverseIntakeTime.seconds() > 0.25) {
                         IntakeMotor.setPower(-1);
+                        IntakeServo.setPower(-1);
+                    } else {
+                        IntakeMotor.setPower(0);
+                        IntakeServo.setPower(0);
                     }
-                    else{IntakeMotor.setPower(0);}
-                }
-                else{
+                } else {
                     ReverseIntakeTime.reset();
                 }
 
-                if(gamepad2.left_bumper) {
-                    IntakeServo.setPosition(1);
-                    IntakeServoTime.reset();
-                }
-                if(gamepad2.left_bumper && IntakeServoTime.seconds() > 1.0){
-                    IntakeServo.setPosition(0);
-                    IntakeServoTime.reset();
-                }
-
+               // if(gamepad2.left_bumper) {
+                 //   IntakeServo.setPosition(1);
+                 //   IntakeServoTime.reset();
+               // }
+               // if(gamepad2.left_bumper && IntakeServoTime.seconds() > 1.0){
+               //     IntakeServo.setPosition(0);
+               //     IntakeServoTime.reset();
+               // }
+            /*
                 Fleft.setPower(frontLeftPower);
                 Bleft.setPower(backLeftPower);
                 Fright.setPower(frontRightPower);
@@ -260,5 +265,7 @@
 
             }
 
+        }*/
+            }
         }
     }

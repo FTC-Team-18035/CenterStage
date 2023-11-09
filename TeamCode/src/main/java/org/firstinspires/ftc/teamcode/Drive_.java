@@ -1,6 +1,6 @@
-This is a reworking of DRIVE_LIFT code to include movement control for 2 claws and framework for lift but **** not yet activated in hardware config ****
+//This is a reworking of DRIVE_LIFT code to include movement control for 2 claws and framework for lift but **** not yet activated in hardware config ****
 
-
+/*
     package org.firstinspires.ftc.teamcode;
 
     import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -10,8 +10,8 @@ This is a reworking of DRIVE_LIFT code to include movement control for 2 claws a
     import com.qualcomm.robotcore.hardware.Servo;
     import com.qualcomm.robotcore.util.ElapsedTime;
 
-    @TeleOp(name = "DRIVE_")
-    public class DRIVE_ extends LinearOpMode {
+    @TeleOp(name = "Drive_")
+    public class Drive_ extends LinearOpMode {
         // variables
         static final double     COUNTS_PER_MOTOR_REV    = 288 ;    // eg: TETRIX Motor Encoder
         static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
@@ -139,4 +139,4 @@ This is a reworking of DRIVE_LIFT code to include movement control for 2 claws a
             }
 
         }
-    }
+    }*/
