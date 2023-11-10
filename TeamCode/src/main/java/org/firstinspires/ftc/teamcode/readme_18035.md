@@ -28,9 +28,9 @@ CONTROL HUB --------------------------------------------------------------------
 
 EXPANSION HUB ---------------------------------------------------------------------------------------------
 
-  Motor Port 0 - Left Lift motor / "Lift1"  (name used in robot config) / mode/direction??
+  Motor Port 0 - Left Lift motor / "LeftLiftMotor"  (name used in robot config) / mode/direction??
   
-  Motor Port 1 - Right lift motor / "Lift2"  (name used in robot config) / mode/direction??     
+  Motor Port 1 - Right lift motor / "RightLiftMotor"  (name used in robot config) / mode/direction??     
   
   Motor Port 2 - Arm rotation motor / "ArmRotationMotor"  (name used in robot config) / mode/direction??      
   
