@@ -4,13 +4,13 @@ This Master Plan should be updated as elements are planned and ALL code should f
 
 CONTROL HUB -----------------------------------------------------------------------------------------------  
 
-  Motor Port 0 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)      Front Left wheel
+  Motor Port 0 - Front Left Motor  / "Fleft"  (name used in robot config) / Front Left wheel
   
-  Motor Port 1 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)      Front Right wheel
+  Motor Port 1 - Front Right Motor / "Fright"  (name used in robot config) / Front Right wheel
   
-  Motor Port 2 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)      Back Left wheel
+  Motor Port 2 - Back Left Motor / "Bleft"  (name used in robot config) / Back Left wheel
   
-  Motor Port 3 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)      Back Right wheel
+  Motor Port 3 - Back Right Motor / "Bright"  (name used in robot config) / Back Right wheel
 
 
   Servo Port 0 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)
@@ -28,22 +28,22 @@ CONTROL HUB --------------------------------------------------------------------
 
 EXPANSION HUB ---------------------------------------------------------------------------------------------
 
-  Motor Port 0 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)      Left lift motor
+  Motor Port 0 - Left Lift motor / "Lift1"  (name used in robot config) / mode/direction??
   
-  Motor Port 1 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)      Right lift motor
+  Motor Port 1 - Right lift motor / "Lift2"  (name used in robot config) / mode/direction??     
   
-  Motor Port 2 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)      Arm rotation motor
+  Motor Port 2 - Arm rotation motor / "ArmRotationMotor"  (name used in robot config) / mode/direction??      
   
-  Motor Port 3 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)
+  Motor Port 3 - Intake Roller motor / "IntakeMotor"  (name used in robot config) / mode/direction??
 
 
-  Servo Port 0 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)      Claw 1 servo
+  Servo Port 0 - Front Claw Servo / "Claw1"  (name used in robot config) / 
 
-  Servo Port 1 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)      Claw 2 servo
+  Servo Port 1 - Back Claw Servo / "Claw2"  (name used in robot config) /
   
-  Servo Port 2 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)      Drone servo
+  Servo Port 2 - Intake Bottom Servo / "IntakeServo"  (name used in robot config) / constant rotation mode
   
-  Servo Port 3 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)  
+  Servo Port 3 - Drone Servo / "DroneServo"  (name used in robot config) /   
   
   Servo Port 4 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)
   
