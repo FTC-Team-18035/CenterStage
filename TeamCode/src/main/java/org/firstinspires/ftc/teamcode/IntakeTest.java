@@ -239,18 +239,18 @@
                 }
 
 
-                if (gamepad1.x) {
-                    if (ReverseIntakeTime.seconds() > 0.25) {
-                        IntakeMotor.setPower(-1);
-                        IntakeServo.setPower(-1);
-                        IntakeRunning = true;
-                    } else {
-                        IntakeMotor.setPower(0);
-                        IntakeServo.setPower(0);
-                        IntakeRunning = false;
+                if (gamepad1.x) {				// Evaluates x button pushed
+                    if (ReverseIntakeTime.seconds() > 0.25) {	   // If the button has been held for 1/4 second
+                        IntakeMotor.setPower(-1);		      // The intake rollers are reversed
+                        IntakeServo.setPower(-1);		      // The bottom roller is reversed
+                        IntakeRunning = true;			      // The intake status is marked as running
+                    } else {					   // If the button has not been held for 1/4 second
+                        IntakeMotor.setPower(0);		      // The intake rollers are stopped
+                        IntakeServo.setPower(0);		      // The bottom roller is stopped
+                        IntakeRunning = false;			      // The intake status is marked as stopped
                     }
-                } else {
-                    ReverseIntakeTime.reset();
+                } else {					// If x button has not been pushed
+                    ReverseIntakeTime.reset();			   // The timer is reset
                 }
 
                // if(gamepad2.left_bumper) {
