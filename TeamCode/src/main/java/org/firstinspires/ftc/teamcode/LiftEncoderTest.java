@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@TeleOp(name = "Lift Test")
+@TeleOp(name = "Lift  Encoder Test")
 public class LiftEncoderTest extends LinearOpMode {
 
     private double liftPower = 0.7;

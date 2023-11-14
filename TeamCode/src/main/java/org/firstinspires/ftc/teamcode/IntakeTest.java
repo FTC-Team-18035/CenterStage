@@ -61,7 +61,6 @@
             //   DcMotor RightLiftMotor = hardwareMap.dcMotor.get("Lift2");    // Lift Motors *******
             //   DcMotor ArmRotationMotor = hardwareMap.dcMotor.get("ArmRotationMotor");
             DcMotor IntakeMotor = hardwareMap.dcMotor.get("IntakeMotor");
-            CRServo IntakeServo = hardwareMap.crservo.get("IntakeServo");
 
 
             // Reverse the right side motors
@@ -226,14 +225,12 @@
 */
 
                 if (gamepad1.a && !IntakeRunning && IntakeTime.seconds() > 0.5) {
-                    IntakeMotor.setPower(1);
-                    IntakeServo.setPower(1);
+                    IntakeMotor.setPower(0.75);
                     IntakeRunning = true;
                     IntakeTime.reset();
                 }
                 else if (gamepad1.a && IntakeRunning && IntakeTime.seconds() > 0.5) {
                     IntakeMotor.setPower(0);
-                    IntakeServo.setPower(0);
                     IntakeRunning = false;
                     IntakeTime.reset();
                 }
@@ -241,12 +238,10 @@
 
                 if (gamepad1.x) {				// Evaluates x button pushed
                     if (ReverseIntakeTime.seconds() > 0.25) {	   // If the button has been held for 1/4 second
-                        IntakeMotor.setPower(-1);		      // The intake rollers are reversed
-                        IntakeServo.setPower(-1);		      // The bottom roller is reversed
+                        IntakeMotor.setPower(-0.75);		      // The intake rollers are reversed
                         IntakeRunning = true;			      // The intake status is marked as running
                     } else {					   // If the button has not been held for 1/4 second
                         IntakeMotor.setPower(0);		      // The intake rollers are stopped
-                        IntakeServo.setPower(0);		      // The bottom roller is stopped
                         IntakeRunning = false;			      // The intake status is marked as stopped
                     }
                 } else {					// If x button has not been pushed
