@@ -225,7 +225,7 @@
 */
 
                 if (gamepad1.a && !IntakeRunning && IntakeTime.seconds() > 0.5) {
-                    IntakeMotor.setPower(0.75);
+                    IntakeMotor.setPower(1);
                     IntakeRunning = true;
                     IntakeTime.reset();
                 }
@@ -238,7 +238,7 @@
 
                 if (gamepad1.x) {				// Evaluates x button pushed
                     if (ReverseIntakeTime.seconds() > 0.25) {	   // If the button has been held for 1/4 second
-                        IntakeMotor.setPower(-0.75);		      // The intake rollers are reversed
+                        IntakeMotor.setPower(-1);		      // The intake rollers are reversed
                         IntakeRunning = true;			      // The intake status is marked as running
                     } else {					   // If the button has not been held for 1/4 second
                         IntakeMotor.setPower(0);		      // The intake rollers are stopped
