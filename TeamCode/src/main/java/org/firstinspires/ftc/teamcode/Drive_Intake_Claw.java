@@ -165,7 +165,79 @@
                     E_DoubleClose = false;
                     ClawTime.reset();
                 }
+/*
+DEACTIVATED
+                // check for lift movement input
+                
+                if(gamepad2.a && LiftTime.seconds() > 1.0){
+                    LiftTarget = 350;
+                    LiftTime.reset();
+                }
+                else if (gamepad2.x && LiftTime.seconds() > 1.0){
+                    LiftTarget = 200;
+                    LiftTime.reset();
+                }
+                else if (gamepad2.y && LiftTime.seconds() > 1.0){
+                    LiftTarget = 100;
+                    LiftTime.reset();
+                }
 
+                // if((gamepad2.dpad_up) && (LiftTarget + 10) < MAX_LIFT_HEIGHT){
+                //    LiftTarget = LiftTarget + 1;
+                // }
+                if(gamepad2.dpad_up && RightLiftMotor.getCurrentPosition() < MAX_LIFT_HEIGHT - 10){
+                    LiftTarget = LiftTarget + 10;
+                }
+                if(gamepad2.dpad_down && RightLiftMotor.getCurrentPosition() > 10){
+                    LiftTarget = LiftTarget - 10;
+                }
+
+                if(LiftTarget > RightLiftMotor.getCurrentPosition()){liftPower = 0.7;}
+                else{liftPower = 0.3;}
+
+                // issue lift power for movement
+                
+                if(!(LiftTarget > MAX_LIFT_HEIGHT)){
+                    RightLiftMotor.setTargetPosition(LiftTarget);
+                    LeftLiftMotor.setTargetPosition(LiftTarget);
+                    RightLiftMotor.setPower(liftPower);
+                    LeftLiftMotor.setPower(liftPower);
+                }
+
+                // Drone code
+                
+                if(gamepad1.b){
+                    DroneTime.reset();
+                    BeganPressed = true;
+                }
+                if(!gamepad1.b && DroneTime.seconds() > 3.0 && BeganPressed == true){
+                    Drone.setPosition(1);
+                }
+                else{BeganPressed = false;}
+DEACTIVATED
+*/
+                // Intake code
+                
+                if(gamepad1.a && !IntakeRunning){                // Press a to start
+                    IntakeMotor.setPower(1);
+                    IntakeRunning = true;
+                    IntakeTime.reset();
+                }
+                if(gamepad1.a && IntakeTime.seconds() > 0.25){    // Press a delayed to stop
+                    IntakeMotor.setPower(0);
+                    IntakeRunning = false;
+                    IntakeTime.reset();
+                }
+                if(gamepad1.x){                                    // Hold x to reverse
+                    if(ReverseIntakeTime.seconds() > 0.25){
+                        IntakeMotor.setPower(-1);
+                    }
+                    else{IntakeMotor.setPower(0);}
+                }
+                else{
+                    ReverseIntakeTime.reset();
+                }                
+                
                 // issue motor power
 
                 Fleft.setPower(frontLeftPower);
