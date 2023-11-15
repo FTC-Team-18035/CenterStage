@@ -21,7 +21,7 @@
         private ElapsedTime     LiftTime = new ElapsedTime();
         private ElapsedTime     DroneTime = new ElapsedTime();
         private ElapsedTime     IntakeTime = new ElapsedTime();
-        private ElapsedTime     IntakeServoTime = new ElapsedTime();
+        // private ElapsedTime     IntakeServoTime = new ElapsedTime();  // removed from hardware plan
         private ElapsedTime     ReverseIntakeTime = new ElapsedTime();
         private double          frontLeftPower = 0;     // declare motor power variable
         private double          backLeftPower = 0;      // declare motor power variable
@@ -62,7 +62,7 @@
             DcMotor RightLiftMotor = hardwareMap.dcMotor.get("Lift2");    // Lift Motors *******
             DcMotor ArmRotationMotor = hardwareMap.dcMotor.get("ArmRotationMotor");
             DcMotor IntakeMotor = hardwareMap.dcMotor.get("IntakeMotor");
-            Servo IntakeServo = hardwareMap.servo.get("IntakeServo");
+            // Servo IntakeServo = hardwareMap.servo.get("IntakeServo");    // removed from hardware plan
 
 
 
@@ -97,7 +97,7 @@
 
             Claw1.setPosition(0);
             Claw2.setPosition(0);
-            IntakeServo.setPosition(0);
+            // IntakeServo.setPosition(0);     // removed from hardware pan
 
 
 // Beginning of code to interpret operator controlled movements
@@ -121,11 +121,13 @@
 
                 denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
                 if(gamepad1.left_bumper){
-                    precision = 4;            // reset default speed to half power
+                    precision = 1;              // set speed to full power - TURBO MODE
                 }
-                else{precision = 2;}
-
-
+                else if (gamepad1.right_bumper){
+                    precision = 4;              // set speed to 1/4 power - PRECISION MODE
+                }
+                else{precision = 2;}            // reset default speed to half power
+                
                 denominator = denominator * precision;
                 frontLeftPower = (y + x + rx) / denominator;
                 backLeftPower = (y - x + rx) / denominator;
@@ -228,7 +230,6 @@
                     Drone.setPosition(1);
                 }
                 else{BeganPressed = false;}
-                // issue chassis power for movement
 
                 if(gamepad1.a && !IntakeRunning){
                     IntakeMotor.setPower(1);
@@ -252,7 +253,7 @@
                     ReverseIntakeTime.reset();
                 }
 
-                if(gamepad2.left_bumper) {
+      /*          if(gamepad2.left_bumper) {
                     IntakeServo.setPosition(1);
                     IntakeServoTime.reset();
                 }
@@ -260,7 +261,7 @@
                     IntakeServo.setPosition(0);
                     IntakeServoTime.reset();
                 }
-
+    */
                 Fleft.setPower(frontLeftPower);
                 Bleft.setPower(backLeftPower);
                 Fright.setPower(frontRightPower);

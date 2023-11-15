@@ -7,13 +7,25 @@
     import com.qualcomm.robotcore.hardware.Servo;
     import com.qualcomm.robotcore.util.ElapsedTime;
 
-    @TeleOp(name = "ONLY DRIVE")
-    public class OnlyDrive extends LinearOpMode {
+    @TeleOp(name = "DRIVE w In/Clw")
+
+    // This opmode has framework for all systems included, but only functions chassis, intake, and claw systems
+
+    public class Drive_Intake_Claw extends LinearOpMode {
         // variables
         static final double     COUNTS_PER_MOTOR_REV    = 288 ;    // eg: TETRIX Motor Encoder
         static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
         static final double     WHEEL_DIAMETER_INCHES   = .5 ;     // For figuring circumference
-        static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
+        static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
+        static final int        MAX_LIFT_HEIGHT         = 400;      // YET TO BE DETERMINED
+        
+        private ElapsedTime     ClawTime = new ElapsedTime();    // sets up timer functions
+        private ElapsedTime     LiftTime = new ElapsedTime();
+        private ElapsedTime     DroneTime = new ElapsedTime();
+        private ElapsedTime     IntakeTime = new ElapsedTime();
+        private ElapsedTime     IntakeServoTime = new ElapsedTime();
+        private ElapsedTime     ReverseIntakeTime = new ElapsedTime();
+
         private ElapsedTime     runtime = new ElapsedTime();    // sets up a timer function
         private ElapsedTime     runtime2 = new ElapsedTime();    // sets up a timer function
         private double          frontLeftPower = 0;     // declare motor power variable
@@ -21,10 +33,15 @@
         private double          frontRightPower = 0;    // declare motor power variable
         private double          backRightPower = 0;     // declare motor power variable
         private double          denominator = 1;        // declare motor power calculation variable
-        private int             precision = 2;          // chassis motor power reduction factor 1 = full 2 = half power 3 = third power 4 = quarter power
-                                                        // ** 230118 set default speed to half power
-        private boolean         isClosed = false;
-
+        private int             precision = 2;          // chassis motor power reduction factor 1=full 2=1/2 power 4=1/4 power
+        private double          liftPower = 0.7;        // declare lift motor power variable *******
+        private boolean         isClosed1 = false;      // Claw state variable
+        private boolean         isClosed2 = false;      // Claw state variable
+        private boolean         E_DoubleClose = false;  // Claw state variable
+        private int             ClawInput = 0;          // Claw button case variable
+        private int             LiftTarget = 0;         // Lift target position variable
+        private boolean         BeganPressed = false;
+        private boolean         IntakeRunning = false;
 
         @Override
         public void runOpMode() throws InterruptedException {
@@ -35,24 +52,41 @@
             DcMotor Bleft = hardwareMap.dcMotor.get("Bleft");
             DcMotor Fright = hardwareMap.dcMotor.get("Fright");
             DcMotor Bright = hardwareMap.dcMotor.get("Bright");
-            Servo Claw = hardwareMap.servo.get("Claw");
-
+            Servo Claw1 = hardwareMap.servo.get("Claw1");
+            Servo Claw2 = hardwareMap.servo.get("Claw2");
+/*
+            Servo Drone = hardwareMap.servo.get("Drone");
+            DcMotor LeftLiftMotor = hardwareMap.dcMotor.get("LeftLiftMotor");    // Lift Motors Name ???
+            DcMotor RightLiftMotor = hardwareMap.dcMotor.get("RightLiftMotor");    // Lift Motors Name  ???
+            DcMotor ArmRotationMotor = hardwareMap.dcMotor.get("ArmRotationMotor");
+*/
+            DcMotor IntakeMotor = hardwareMap.dcMotor.get("IntakeMotor");
+   
             // Reverse the right side motors
-            // Reverse left motors if you are using NeveRests
 
-           // Fleft.setDirection(DcMotorSimple.Direction.REVERSE);
             Fright.setDirection(DcMotorSimple.Direction.REVERSE);
             Bright.setDirection(DcMotorSimple.Direction.REVERSE);
+/*
+            LeftLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            RightLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+            RightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            LeftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+*/
+            // Set motor zero power behavior
             
-            Fleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);  // motor controller has a physical switch
+            Fleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             Fright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             Bleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             Bright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+/*            
+            LeftLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            RightLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+*/
+            Claw1.setPosition(0);
+            Claw2.setPosition(0);
 
-            Claw.setPosition(0);
             waitForStart();
-
-            //if (isStopRequested()) return;
 
             while (opModeIsActive()) {
 
@@ -71,12 +105,13 @@
                 // check for Turbo or Precision Mode
 
                 if(gamepad1.left_bumper){
-                    precision = 1;
+                    precision = 1;              // set speed to full power - TRUBO MODE
                 }
                 else if(gamepad1.right_bumper){
-                    precision = 4;
+                    precision = 4;              // set speed to 1/4 power - PRECISION MODE
                 }
-                else {                precision = 2;            // reset default speed to half power
+                else {
+                    precision = 2;              // reset default speed to half power
                 }
 
                 // calculate motor power
