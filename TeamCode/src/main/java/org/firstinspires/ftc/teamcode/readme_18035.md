@@ -8,22 +8,22 @@ CONTROL HUB --------------------------------------------------------------------
   
   Motor Port 1 - Front Right Motor / "Fright"  (name used in robot config) / Front Right wheel
   
-  Motor Port 2 - Back Left Motor / "Bleft"  (name used in robot config) / Back Left wheel
+  Motor Port 2 - Back Left Motor / "Bright"  (name used in robot config) / Back Right wheel
   
-  Motor Port 3 - Back Right Motor / "Bright"  (name used in robot config) / Back Right wheel
+  Motor Port 3 - Back Right Motor / "Bleft"  (name used in robot config) / Back Left wheel
 
 
-  Servo Port 0 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)
+  Servo Port 0 - "______" servo position) / "______"  (name used in robot config) / "______" (code variable)
  
-  Servo Port 1 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)
+  Servo Port 1 - "______" servo position) / "______"  (name used in robot config) / "______" (code variable)
   
-  Servo Port 2 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)
+  Servo Port 2 - "______" servo position) / "______"  (name used in robot config) / "______" (code variable)
   
-  Servo Port 3 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)  
+  Servo Port 3 - "______" servo position) / "______"  (name used in robot config) / "______" (code variable)  
   
-  Servo Port 4 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)
+  Servo Port 4 - "______" servo position) / "______"  (name used in robot config) / "______" (code variable)
   
-  Servo Port 5 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)
+  Servo Port 5 - "______" servo position) / "______"  (name used in robot config) / "______" (code variable)
 
 
 EXPANSION HUB ---------------------------------------------------------------------------------------------
@@ -45,6 +45,6 @@ EXPANSION HUB ------------------------------------------------------------------
   
   Servo Port 3 - Drone Servo / "DroneServo"  (name used in robot config) /   
   
-  Servo Port 4 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)
+  Servo Port 4 - "______" servo position) / "______"  (name used in robot config) / "______" (code variable)
   
-  Servo Port 5 - "______" motor position) / "______"  (name used in robot config) / "______" (code variable)  
+  Servo Port 5 - "______" servo position) / "______"  (name used in robot config) / "______" (code variable)  
