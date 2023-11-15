@@ -70,7 +70,6 @@
             // Reverse the right side motors
             // Reverse left motors if you are using NeveRests
 
-           // Fleft.setDirection(DcMotorSimple.Direction.REVERSE);
             Fright.setDirection(DcMotorSimple.Direction.REVERSE);
             Bright.setDirection(DcMotorSimple.Direction.REVERSE);
 

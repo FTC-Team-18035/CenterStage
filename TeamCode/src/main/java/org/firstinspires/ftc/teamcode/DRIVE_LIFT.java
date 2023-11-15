@@ -60,7 +60,7 @@
 
             // Lift Motors behavior *******
 
-            Claw.setPosition(0);
+            //Claw.setPosition(0);
 
 
 // Beginning of code to interpret operator controlled movements
@@ -83,7 +83,15 @@
                 // calculate motor movement math and adjust according to lift height or manual precision mode selection
 
                 denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-                precision = 2;            // reset default speed to half power
+                precision = 2;
+                if(gamepad1.left_bumper){
+                    precision = 1;
+                }
+                if(gamepad1.right_bumper){
+                    precision = 4;
+                }
+
+                          // reset default speed to half power
 
                 denominator = denominator * precision;
                 frontLeftPower = (y + x + rx) / denominator;
