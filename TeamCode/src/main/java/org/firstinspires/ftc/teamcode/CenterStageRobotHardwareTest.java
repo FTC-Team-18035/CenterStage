@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-                //We set the type of file this is plus name it
+        @Disabled        //We set the type of file this is plus name it
 @Autonomous(name = "HardwareTesting")
 public class CenterStageRobotHardwareTest extends LinearOpMode {
 

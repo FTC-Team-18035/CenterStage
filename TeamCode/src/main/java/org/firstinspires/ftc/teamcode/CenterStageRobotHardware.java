@@ -15,7 +15,6 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
-
 public class CenterStageRobotHardware {
 
     // DECLARE ALL VARIABLES HERE
