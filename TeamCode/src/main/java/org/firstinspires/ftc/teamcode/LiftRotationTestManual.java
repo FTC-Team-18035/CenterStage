@@ -1,22 +1,20 @@
     package org.firstinspires.ftc.teamcode;
 
-    import com.qualcomm.robotcore.eventloop.opmode.Disabled;
     import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
     import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
     import com.qualcomm.robotcore.hardware.DcMotor;
     import com.qualcomm.robotcore.hardware.DcMotorSimple;
-    import com.qualcomm.robotcore.hardware.Servo;
     import com.qualcomm.robotcore.util.ElapsedTime;
 
-    @TeleOp(name = "Lift test")
-    public class LiftTest extends LinearOpMode {
+    @TeleOp(name = "Lift Rotation Manual")
+    public class LiftRotationTestManual extends LinearOpMode {
         // variables
         static final double COUNTS_PER_MOTOR_REV = 288;    // eg: TETRIX Motor Encoder
         static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
         static final double WHEEL_DIAMETER_INCHES = .5;     // For figuring circumference
         static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
-        static final int MAX_LIFT_HEIGHT = 1100;
+        static final int MAX_LIFT_HEIGHT = 4285;
 
         private ElapsedTime ClawTime = new ElapsedTime();    // sets up a timer function
         private ElapsedTime LiftTime = new ElapsedTime();
@@ -32,7 +30,7 @@
         private int precision = 1;          // chassis motor power reduction factor 1 = full 2 = half power 3 = third power 4 = quarter power
         // ** 231023 set default speed to FULL power *******
 
-        private double liftPower = 0.7;     // declare lift motor power variable *******
+        private double liftPower = 0.5;     // declare lift motor power variable *******
 
         private boolean isClosed1 = false;
         private boolean isClosed2 = false;
@@ -59,9 +57,9 @@
             // Servo Claw1 = hardwareMap.servo.get("Claw1");
             //Servo Claw2 = hardwareMap.servo.get("Claw2");
             //Servo Drone = hardwareMap.servo.get("Drone");
-            //DcMotor LeftLiftMotor = hardwareMap.dcMotor.get("Lift1");    // Lift Motors *******
-            //DcMotor RightLiftMotor = hardwareMap.dcMotor.get("Lift2");    // Lift Motors *******
-             DcMotor ArmRotationMotor = hardwareMap.dcMotor.get("ArmRotationMotor");
+            DcMotor LeftLiftMotor = hardwareMap.dcMotor.get("Lift1");    // Lift Motors *******
+            DcMotor RightLiftMotor = hardwareMap.dcMotor.get("Lift2");    // Lift Motors *******
+            // DcMotor ArmRotationMotor = hardwareMap.dcMotor.get("ArmRotationMotor");
             // DcMotor IntakeMotor = hardwareMap.dcMotor.get("IntakeMotor");
             // Servo IntakeServo = hardwareMap.servo.get("IntakeServo");
 
@@ -74,11 +72,10 @@
             //Bright.setDirection(DcMotorSimple.Direction.REVERSE);
 
             //LeftLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-             //RightLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+             RightLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-             //RightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            //LeftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            ArmRotationMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+             RightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            LeftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             // Lift Motors direction?? *******
 
@@ -87,18 +84,14 @@
             // Bleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             // Bright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-            //ArmRotationMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-            //LeftLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            // RightLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            LeftLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            RightLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             // Lift Motors behavior *******
-             //RightLiftMotor.setTargetPosition(0);
-            //LeftLiftMotor.setTargetPosition(0);
-            ArmRotationMotor.setTargetPosition(0);
-            //RightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            //LeftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            ArmRotationMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+             RightLiftMotor.setTargetPosition(0);
+            LeftLiftMotor.setTargetPosition(0);
+            RightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            LeftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // Claw1.setPosition(0);
             // Claw2.setPosition(0);
@@ -183,20 +176,23 @@
 
 
                 // check for lift movement input
-               /*** if (gamepad2.y && LiftTime.seconds() > 1.0) {
-                    LiftTarget = 1000;
+                if (gamepad2.y && LiftTime.seconds() > 1.0) {
+                    LiftTarget = 4280;
                     LiftTime.reset();
                 } else if (gamepad2.x && LiftTime.seconds() > 1.0) {
-                    LiftTarget = 500;
+                    LiftTarget = 3200;
                     LiftTime.reset();
                 } else if (gamepad2.a && LiftTime.seconds() > 1.0) {
-                    LiftTarget = 100;
+                    LiftTarget = 2000;
+                    LiftTime.reset();
+                }else if (gamepad2.left_bumper && LiftTime.seconds() > 1.0){
+                    LiftTarget = 0;
                     LiftTime.reset();
                 }
 
-                /*if((gamepad2.dpad_up) && (LiftTarget + 10) < MAX_LIFT_HEIGHT){
+                if((gamepad2.dpad_up) && (LiftTarget + 10) < MAX_LIFT_HEIGHT && LiftTarget > 1200){
                     LiftTarget = LiftTarget + 1;
-                }*
+                }
                 if (gamepad2.dpad_up && LeftLiftMotor.getCurrentPosition() < MAX_LIFT_HEIGHT - 10) {
                     LiftTarget = LiftTarget + 10;
                 }
@@ -207,17 +203,24 @@
                 if (LiftTarget > LeftLiftMotor.getCurrentPosition()) {
                     liftPower = 0.7;
                 } else {
-                    liftPower = 0.3;
+                    liftPower = 0.7;
                 }
-
+                if(gamepad2.left_stick_button){
+                    LeftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    RightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    LeftLiftMotor.setTargetPosition(0);
+                    RightLiftMotor.setTargetPosition(0);
+                    LeftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    RightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                }
 
                 // issue lift power for movement
                 if (LiftTarget < MAX_LIFT_HEIGHT) {
-                    // RightLiftMotor.setTargetPosition(LiftTarget);
+                    RightLiftMotor.setTargetPosition(LiftTarget);
                     LeftLiftMotor.setTargetPosition(LiftTarget);
-                    //RightLiftMotor.setPower(liftPower);
+                    RightLiftMotor.setPower(liftPower);
                     LeftLiftMotor.setPower(liftPower);
-                }**/
+                }
 
 
 
@@ -271,8 +274,8 @@
 
             }*/
 
-                telemetry.addData("Arm Encoder Value", ArmRotationMotor.getCurrentPosition());
-                //telemetry.addData("Right Lift height", RightLiftMotor.getCurrentPosition());
+                telemetry.addData("Left Lift height", LeftLiftMotor.getCurrentPosition());
+                telemetry.addData("Right Lift height", RightLiftMotor.getCurrentPosition());
                 telemetry.update();
 
             }

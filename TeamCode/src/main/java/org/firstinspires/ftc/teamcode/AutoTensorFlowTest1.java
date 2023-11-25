@@ -49,7 +49,7 @@ import java.util.List;
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
- */
+ *
 @Autonomous(name = "TensorFlow Test", group = "Concept")
 public class AutoTensorFlowTest1 extends LinearOpMode {
 
@@ -72,7 +72,7 @@ public class AutoTensorFlowTest1 extends LinearOpMode {
 
     private double power = 0.75;
 
-    private String label = null;
+    private boolean label = true;}
 
 
 

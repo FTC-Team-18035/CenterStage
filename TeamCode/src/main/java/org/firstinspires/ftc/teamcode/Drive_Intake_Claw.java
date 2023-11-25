@@ -17,7 +17,7 @@
         static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
         static final double WHEEL_DIAMETER_INCHES = .5;     // For figuring circumference
         static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
-        static final int MAX_LIFT_HEIGHT = 400;      // YET TO BE DETERMINED
+        static final int MAX_LIFT_HEIGHT = 4285;      // YET TO BE DETERMINED
 
         private ElapsedTime ClawTime = new ElapsedTime();    // sets up timer functions
         private ElapsedTime LiftTime = new ElapsedTime();
@@ -52,41 +52,52 @@
             DcMotor Bleft = hardwareMap.dcMotor.get("Bleft");
             DcMotor Fright = hardwareMap.dcMotor.get("Fright");
             DcMotor Bright = hardwareMap.dcMotor.get("Bright");
-            //Servo Claw1 = hardwareMap.servo.get("Claw1");
-            //Servo Claw2 = hardwareMap.servo.get("Claw2");
-/*
-            Servo Drone = hardwareMap.servo.get("Drone");
-            DcMotor LeftLiftMotor = hardwareMap.dcMotor.get("LeftLiftMotor");    // Lift Motors Name ???
-            DcMotor RightLiftMotor = hardwareMap.dcMotor.get("RightLiftMotor");    // Lift Motors Name  ???
+            Servo Claw1 = hardwareMap.servo.get("Claw1");
+            Servo Claw2 = hardwareMap.servo.get("Claw2");
+
+//            Servo Drone = hardwareMap.servo.get("Drone");
+            DcMotor LeftLiftMotor = hardwareMap.dcMotor.get("Lift1");    // Lift Motors Name ???
+            DcMotor RightLiftMotor = hardwareMap.dcMotor.get("Lift2");    // Lift Motors Name  ???
             DcMotor ArmRotationMotor = hardwareMap.dcMotor.get("ArmRotationMotor");
-*/
+
             DcMotor IntakeMotor = hardwareMap.dcMotor.get("IntakeMotor");
 
             // Reverse the right side motors
 
+            Bleft.setDirection(DcMotorSimple.Direction.REVERSE);
+        //    Fleft.setDirection(DcMotorSimple.Direction.REVERSE);
             Fright.setDirection(DcMotorSimple.Direction.REVERSE);
-            Bright.setDirection(DcMotorSimple.Direction.REVERSE);
+           // Bright.setDirection(DcMotorSimple.Direction.REVERSE);
 
             IntakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-/*
-            LeftLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+//            LeftLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             RightLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
             RightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             LeftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-*/
+            ArmRotationMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            LeftLiftMotor.setTargetPosition(0);
+            RightLiftMotor.setTargetPosition(0);
+            ArmRotationMotor.setTargetPosition(0);
+
+            LeftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            RightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            ArmRotationMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
             // Set motor zero power behavior
 
             Fleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             Fright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             Bleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             Bright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-/*            
+
             LeftLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             RightLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-*/
-            // Claw1.setPosition(1);
-            // Claw2.setPosition(1);
+
+            Claw1.setPosition(1);
+            Claw2.setPosition(1);
 
             waitForStart();
 
@@ -123,11 +134,11 @@
                 backRightPower = (y + x - rx) / denominator;
 
                 // check for Claw input
-/*
-                switch(ClawInput){
+
+                switch (ClawInput) {
                     //If the answer is 1 it runs the code here
                     case 0:
-                        if(gamepad2.b && ClawTime.milliseconds() > 300 && isClosed1){//This checks to see if it has been more than 300 milliseconds since the "a" button has been pressed
+                        if (gamepad2.b && ClawTime.milliseconds() > 300 && isClosed1) {//This checks to see if it has been more than 300 milliseconds since the "a" button has been pressed
                             ClawTime.reset();//This resets the timer to 0
                             Claw1.setPosition(1);//this opens claw 1
                             isClosed1 = false;
@@ -136,7 +147,7 @@
                         }
                         //If the answer is 3 it runs the code here
                     case 1:
-                        if(gamepad2.b && ClawTime.milliseconds() > 300 && isClosed2){//This checks to see if it has been more than 300 milliseconds since the "a" button has been pressed
+                        if (gamepad2.b && ClawTime.milliseconds() > 300 && isClosed2) {//This checks to see if it has been more than 300 milliseconds since the "a" button has been pressed
                             ClawTime.reset();//This resets the timer to 0
                             Claw2.setPosition(1);//this opens claw 2
                             isClosed2 = false;
@@ -145,7 +156,7 @@
                         }
                         //If the answer is 4 it runs the code here
                     case 2:
-                        if(gamepad2.b && ClawTime.milliseconds() > 300){//This checks to see if the "a" button has been pressed on gamepad1
+                        if (gamepad2.b && ClawTime.milliseconds() > 300) {//This checks to see if the "a" button has been pressed on gamepad1
                             ClawTime.reset();//This starts the timer since the "a" button was just pressed
                             Claw1.setPosition(0);//this closes claw 1
                             Claw2.setPosition(0);//this closes claw 2
@@ -155,7 +166,7 @@
                             ClawInput = 0;//This adds one to the variable to keep track of times the "a" button has been pressed
                         }
                 }
-                if(gamepad2.right_bumper && !E_DoubleClose && ClawTime.milliseconds() > 300){
+                if (gamepad2.right_bumper && !E_DoubleClose && ClawTime.milliseconds() > 300) {
                     Claw1.setPosition(0);
                     Claw2.setPosition(0);
                     isClosed1 = true;
@@ -163,8 +174,7 @@
                     E_DoubleClose = true;
                     ClawInput = 0;
                     ClawTime.reset();
-                }
-                else if(gamepad2.right_bumper && E_DoubleClose && ClawTime.milliseconds() > 300){
+                } else if (gamepad2.right_bumper && E_DoubleClose && ClawTime.milliseconds() > 300) {
                     Claw1.setPosition(1);
                     Claw2.setPosition(1);
                     isClosed1 = false;
@@ -172,16 +182,42 @@
                     E_DoubleClose = false;
                     ClawTime.reset();
                 }
-            }*/
-/*
-DEACTIVATED
+
+//DEACTIVATED
                 // check for lift movement input
-                
-                if(gamepad2.a && LiftTime.seconds() > 1.0){
-                    LiftTarget = 350;
-                    LiftTime.reset();
-                }
-                else if (gamepad2.x && LiftTime.seconds() > 1.0){
+
+                if (gamepad2.a && LiftTime.seconds() > 1.0) {
+                    LeftLiftMotor.setTargetPosition(2000);
+                    RightLiftMotor.setTargetPosition(2000);
+                    LeftLiftMotor.setPower(0.7);
+                    RightLiftMotor.setPower(0.7);
+                    //LiftTarget = 2000;
+                    ArmRotationMotor.setTargetPosition(-138);
+                    ArmRotationMotor.setPower(0.6);
+                    //LiftTime.reset();
+                    //ArmRotationTime.reset();
+                    sleep(2000);
+                    ArmRotationMotor.setTargetPosition(880);
+                    ArmRotationMotor.setPower(0.6);
+                } /*else if (gamepad2.x && LiftTime.seconds() > 1.0) {
+                    ArmRotationMotor.setTargetPosition(-138);
+                    sleep(2000);
+                    LeftLiftMotor.setTargetPosition(100);
+                    RightLiftMotor.setTargetPosition(100);
+                    LeftLiftMotor.setPower(0.7);
+                    RightLiftMotor.setPower(0.7);
+                    sleep(1000);
+                    ArmRotationMotor.setTargetPosition(0);
+                    //LiftTarget = 2000;
+
+                    //LiftTime.reset();
+                    //ArmRotationTime.reset();
+                    sleep(2000);
+                    LeftLiftMotor.setTargetPosition(0);
+                    RightLiftMotor.setTargetPosition(0);
+                    LeftLiftMotor.setPower(0.7);
+                    RightLiftMotor.setPower(0.7);
+               /* else if (gamepad2.x && LiftTime.seconds() > 1.0){
                     LiftTarget = 200;
                     LiftTime.reset();
                 }
@@ -224,41 +260,40 @@ DEACTIVATED
                 else{BeganPressed = false;}
 DEACTIVATED
 */
-                // Intake code
+                    // Intake code
 
-                if (gamepad1.a && !IntakeRunning && IntakeTime.seconds() > 0.5) {
-                    IntakeMotor.setPower(1);
-                    IntakeRunning = true;
-                    IntakeTime.reset();
-                } else if (gamepad1.a && IntakeRunning && IntakeTime.seconds() > 0.5) {
-                    IntakeMotor.setPower(0);
-                    IntakeRunning = false;
-                    IntakeTime.reset();
-                }
-
-
-                if (gamepad1.x) {                // Evaluates x button pushed
-                    if (ReverseIntakeTime.seconds() > 0.25) {       // If the button has been held for 1/4 second
-                        IntakeMotor.setPower(-1);              // The intake rollers are reversed
-                        IntakeRunning = true;                  // The intake status is marked as running
-                    } else {                       // If the button has not been held for 1/4 second
-                        IntakeMotor.setPower(0);              // The intake rollers are stopped
-                        IntakeRunning = false;                  // The intake status is marked as stopped
+                    if (gamepad1.a && !IntakeRunning && IntakeTime.seconds() > 0.5) {
+                        IntakeMotor.setPower(1);
+                        IntakeRunning = true;
+                        IntakeTime.reset();
+                    } else if (gamepad1.a && IntakeRunning && IntakeTime.seconds() > 0.5) {
+                        IntakeMotor.setPower(0);
+                        IntakeRunning = false;
+                        IntakeTime.reset();
                     }
-                } else {                    // If x button has not been pushed
-                    ReverseIntakeTime.reset();               // The timer is reset
+
+
+                    if (gamepad1.x) {                // Evaluates x button pushed
+                        if (ReverseIntakeTime.seconds() > 0.25) {       // If the button has been held for 1/4 second
+                            IntakeMotor.setPower(-1);              // The intake rollers are reversed
+                            IntakeRunning = true;                  // The intake status is marked as running
+                        } else {                       // If the button has not been held for 1/4 second
+                            IntakeMotor.setPower(0);              // The intake rollers are stopped
+                            IntakeRunning = false;                  // The intake status is marked as stopped
+                        }
+                    } else {                    // If x button has not been pushed
+                        ReverseIntakeTime.reset();               // The timer is reset
+                    }
+
+
+                    // issue motor power
+
+                    Fleft.setPower(frontLeftPower);
+                    Bleft.setPower(backLeftPower);
+                    Fright.setPower(frontRightPower);
+                    Bright.setPower(backRightPower);
+
                 }
-
-
-                // issue motor power
-
-                Fleft.setPower(frontLeftPower);
-                Bleft.setPower(backLeftPower);
-                Fright.setPower(frontRightPower);
-                Bright.setPower(backRightPower);
 
             }
-
         }
-    }
-
