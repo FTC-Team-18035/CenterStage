@@ -7,17 +7,17 @@
     import com.qualcomm.robotcore.hardware.Servo;
     import com.qualcomm.robotcore.util.ElapsedTime;
 
-    @TeleOp(name = "DRIVE w In/Clw")
+    @TeleOp(name = "TEST Full Robot")
 
-    // This opmode has framework for all systems included, but only functions chassis, intake, and claw systems
+    // This opmode has framework for all systems included
 
-    public class Drive_Intake_Claw extends LinearOpMode {
+    public class TEST_FullRobot extends LinearOpMode {
         // variables
         static final double COUNTS_PER_MOTOR_REV = 288;    // eg: TETRIX Motor Encoder
         static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
         static final double WHEEL_DIAMETER_INCHES = .5;     // For figuring circumference
         static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
-        static final int MAX_LIFT_HEIGHT = 4285;      // YET TO BE DETERMINED
+        static final int MAX_LIFT_HEIGHT = 4285;
 
         private ElapsedTime ClawTime = new ElapsedTime();    // sets up timer functions
         private ElapsedTime LiftTime = new ElapsedTime();
@@ -34,7 +34,7 @@
         private double backRightPower = 0;     // declare motor power variable
         private double denominator = 1;        // declare motor power calculation variable
         private int precision = 2;          // chassis motor power reduction factor 1=full 2=1/2 power 4=1/4 power
-        private double liftPower = 0.7;        // declare lift motor power variable *******
+        private double liftPower = 0.5;        // declare lift motor power variable *******
         private boolean isClosed1 = false;      // Claw state variable
         private boolean isClosed2 = false;      // Claw state variable
         private boolean E_DoubleClose = false;  // Claw state variable
@@ -64,9 +64,9 @@
 
             // Reverse the right side motors
 
-            Bleft.setDirection(DcMotorSimple.Direction.REVERSE);
-        //    Fleft.setDirection(DcMotorSimple.Direction.REVERSE);
-            Fright.setDirection(DcMotorSimple.Direction.REVERSE);
+           // Bleft.setDirection(DcMotorSimple.Direction.REVERSE);
+           // Fleft.setDirection(DcMotorSimple.Direction.REVERSE);
+           // Fright.setDirection(DcMotorSimple.Direction.REVERSE);
            // Bright.setDirection(DcMotorSimple.Direction.REVERSE);
 
             IntakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -186,37 +186,14 @@
 //DEACTIVATED
                 // check for lift movement input
 
-                if (gamepad2.a && (LiftTime.seconds() > 1.0)) {
-                    LeftLiftMotor.setTargetPosition(2000);
-                    RightLiftMotor.setTargetPosition(2000);
-                    LeftLiftMotor.setPower(0.7);
-                    RightLiftMotor.setPower(0.7);
-                    //LiftTarget = 2000;
-                    ArmRotationMotor.setTargetPosition(-138);
-                    ArmRotationMotor.setPower(0.6);
-                    //LiftTime.reset();
-                    //ArmRotationTime.reset();
-                    sleep(2000);
-                    ArmRotationMotor.setTargetPosition(880);
-                    ArmRotationMotor.setPower(0.6);
-                } /*else if (gamepad2.x && LiftTime.seconds() > 1.0) {
-                    ArmRotationMotor.setTargetPosition(-138);
-                    sleep(2000);
-                    LeftLiftMotor.setTargetPosition(100);
-                    RightLiftMotor.setTargetPosition(100);
-                    LeftLiftMotor.setPower(0.7);
-                    RightLiftMotor.setPower(0.7);
-                    sleep(1000);
-                    ArmRotationMotor.setTargetPosition(0);
-                    //LiftTarget = 2000;
-
-                    //LiftTime.reset();
-                    //ArmRotationTime.reset();
-                    sleep(2000);
-                    LeftLiftMotor.setTargetPosition(0);
-                    RightLiftMotor.setTargetPosition(0);
-                    LeftLiftMotor.setPower(0.7);
-                    RightLiftMotor.setPower(0.7);
+                if (gamepad2.a && LiftTime.seconds() > 1.0) {
+                    LiftTarget = 2000;
+                    LiftTime.reset();
+                }
+                else if (gamepad2.x && LiftTime.seconds() > 1.0) {
+                    LiftTarget = 0;
+                    LiftTime.reset();
+                }
                /* else if (gamepad2.x && LiftTime.seconds() > 1.0){
                     LiftTarget = 200;
                     LiftTime.reset();
@@ -224,10 +201,10 @@
                 else if (gamepad2.y && LiftTime.seconds() > 1.0){
                     LiftTarget = 100;
                     LiftTime.reset();
-                }
+               */ }
 
                 // if((gamepad2.dpad_up) && (LiftTarget + 10) < MAX_LIFT_HEIGHT){
-                //    LiftTarget = LiftTarget + 1;
+                  //  LiftTarget = LiftTarget + 1;
                 // }
                 if(gamepad2.dpad_up && RightLiftMotor.getCurrentPosition() < MAX_LIFT_HEIGHT - 10){
                     LiftTarget = LiftTarget + 10;
@@ -235,9 +212,6 @@
                 if(gamepad2.dpad_down && RightLiftMotor.getCurrentPosition() > 10){
                     LiftTarget = LiftTarget - 10;
                 }
-
-                if(LiftTarget > RightLiftMotor.getCurrentPosition()){liftPower = 0.7;}
-                else{liftPower = 0.3;}
 
                 // issue lift power for movement
                 
@@ -247,9 +221,19 @@
                     RightLiftMotor.setPower(liftPower);
                     LeftLiftMotor.setPower(liftPower);
                 }
+                if(RightLiftMotor.getCurrentPosition() > 100 && RightLiftMotor.getCurrentPosition() < 300){
+                    ArmRotationMotor.setTargetPosition(-138);
+                    ArmRotationMotor.setPower(0.3);
+                }
+                else if(RightLiftMotor.getCurrentPosition() > 300){
+                    ArmRotationMotor.setTargetPosition(880);
+                    ArmRotationMotor.setPower(0.3);
+                }
+                else{ArmRotationMotor.setTargetPosition(0);
+                    ArmRotationMotor.setPower(0.3);}
 
                 // Drone code
-                
+             /*
                 if(gamepad1.b){
                     DroneTime.reset();
                     BeganPressed = true;
@@ -296,4 +280,4 @@ DEACTIVATED
                 }
 
             }
-        }
+
