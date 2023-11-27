@@ -262,7 +262,7 @@ DEACTIVATED
 */
                     // Intake code
 
-                    if (gamepad1.a && !IntakeRunning && IntakeTime.seconds() > 0.5) {
+                    if (gamepad1.a && (!IntakeRunning && IntakeTime.seconds() > 0.5)) {
                         IntakeMotor.setPower(1);
                         IntakeRunning = true;
                         IntakeTime.reset();

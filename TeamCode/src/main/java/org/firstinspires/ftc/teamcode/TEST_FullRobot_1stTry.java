@@ -7,11 +7,11 @@
     import com.qualcomm.robotcore.hardware.Servo;
     import com.qualcomm.robotcore.util.ElapsedTime;
 
-    @TeleOp(name = "TEST Full Robot")
+    @TeleOp(name = "TEST Full Robot V1")
 
     // This opmode has framework for all systems included
 
-    public class TEST_FullRobot extends LinearOpMode {
+    public class TEST_FullRobot_1stTry extends LinearOpMode {
         // variables
         static final double COUNTS_PER_MOTOR_REV = 288;    // eg: TETRIX Motor Encoder
         static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
@@ -42,6 +42,7 @@
         private int LiftTarget = 0;         // Lift target position variable
         private boolean BeganPressed = false;
         private boolean IntakeRunning = false;
+        private boolean ArmActive = true;
 
         @Override
         public void runOpMode() throws InterruptedException {
@@ -64,10 +65,10 @@
 
             // Reverse the right side motors
 
-           // Bleft.setDirection(DcMotorSimple.Direction.REVERSE);
-           // Fleft.setDirection(DcMotorSimple.Direction.REVERSE);
-           // Fright.setDirection(DcMotorSimple.Direction.REVERSE);
-           // Bright.setDirection(DcMotorSimple.Direction.REVERSE);
+            // Bleft.setDirection(DcMotorSimple.Direction.REVERSE);
+            // Fleft.setDirection(DcMotorSimple.Direction.REVERSE);
+            // Fright.setDirection(DcMotorSimple.Direction.REVERSE);
+            // Bright.setDirection(DcMotorSimple.Direction.REVERSE);
 
             IntakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -187,50 +188,51 @@
                 // check for lift movement input
 
                 if (gamepad2.a && LiftTime.seconds() > 1.0) {
+                    ArmActive = true;
                     LiftTarget = 2000;
                     LiftTime.reset();
-                }
-                else if (gamepad2.x && LiftTime.seconds() > 1.0) {
+                } else if (gamepad2.x && LiftTime.seconds() > 1.0) {
                     LiftTarget = 0;
                     LiftTime.reset();
                 }
                /* else if (gamepad2.x && LiftTime.seconds() > 1.0){
                     LiftTarget = 200;
                     LiftTime.reset();
-                }
-                else if (gamepad2.y && LiftTime.seconds() > 1.0){
-                    LiftTarget = 100;
+                }*/
+                else if (gamepad2.y && LiftTime.seconds() > 1.0) {
+                    ArmActive = false;
+                    LiftTarget = 4280;
                     LiftTime.reset();
-               */ }
+                }
 
                 // if((gamepad2.dpad_up) && (LiftTarget + 10) < MAX_LIFT_HEIGHT){
-                  //  LiftTarget = LiftTarget + 1;
+                //  LiftTarget = LiftTarget + 1;
                 // }
-                if(gamepad2.dpad_up && RightLiftMotor.getCurrentPosition() < MAX_LIFT_HEIGHT - 10){
+                if (gamepad2.dpad_up && LiftTarget < MAX_LIFT_HEIGHT - 10) {
                     LiftTarget = LiftTarget + 10;
                 }
-                if(gamepad2.dpad_down && RightLiftMotor.getCurrentPosition() > 10){
+                if (gamepad2.dpad_down && RightLiftMotor.getCurrentPosition() > 10) {
                     LiftTarget = LiftTarget - 10;
                 }
 
                 // issue lift power for movement
-                
-                if(!(LiftTarget > MAX_LIFT_HEIGHT)){
+
+                if (!(LiftTarget > MAX_LIFT_HEIGHT)) {
                     RightLiftMotor.setTargetPosition(LiftTarget);
                     LeftLiftMotor.setTargetPosition(LiftTarget);
                     RightLiftMotor.setPower(liftPower);
                     LeftLiftMotor.setPower(liftPower);
                 }
-                if(RightLiftMotor.getCurrentPosition() > 100 && RightLiftMotor.getCurrentPosition() < 300){
+                if (RightLiftMotor.getCurrentPosition() > 200 && RightLiftMotor.getCurrentPosition() < 500 && ArmActive) {
                     ArmRotationMotor.setTargetPosition(-138);
                     ArmRotationMotor.setPower(0.3);
-                }
-                else if(RightLiftMotor.getCurrentPosition() > 300){
+                } else if (RightLiftMotor.getCurrentPosition() > 500 && ArmActive) {
                     ArmRotationMotor.setTargetPosition(880);
                     ArmRotationMotor.setPower(0.3);
+                } else {
+                    ArmRotationMotor.setTargetPosition(0);
+                    ArmRotationMotor.setPower(0.3);
                 }
-                else{ArmRotationMotor.setTargetPosition(0);
-                    ArmRotationMotor.setPower(0.3);}
 
                 // Drone code
              /*
@@ -244,40 +246,41 @@
                 else{BeganPressed = false;}
 DEACTIVATED
 */
-                    // Intake code
+                // Intake code
 
-                    if (gamepad1.a && !IntakeRunning && IntakeTime.seconds() > 0.5) {
-                        IntakeMotor.setPower(1);
-                        IntakeRunning = true;
-                        IntakeTime.reset();
-                    } else if (gamepad1.a && IntakeRunning && IntakeTime.seconds() > 0.5) {
-                        IntakeMotor.setPower(0);
-                        IntakeRunning = false;
-                        IntakeTime.reset();
-                    }
-
-
-                    if (gamepad1.x) {                // Evaluates x button pushed
-                        if (ReverseIntakeTime.seconds() > 0.25) {       // If the button has been held for 1/4 second
-                            IntakeMotor.setPower(-1);              // The intake rollers are reversed
-                            IntakeRunning = true;                  // The intake status is marked as running
-                        } else {                       // If the button has not been held for 1/4 second
-                            IntakeMotor.setPower(0);              // The intake rollers are stopped
-                            IntakeRunning = false;                  // The intake status is marked as stopped
-                        }
-                    } else {                    // If x button has not been pushed
-                        ReverseIntakeTime.reset();               // The timer is reset
-                    }
-
-
-                    // issue motor power
-
-                    Fleft.setPower(frontLeftPower);
-                    Bleft.setPower(backLeftPower);
-                    Fright.setPower(frontRightPower);
-                    Bright.setPower(backRightPower);
-
+                if (gamepad1.a && !IntakeRunning && IntakeTime.seconds() > 0.5) {
+                    IntakeMotor.setPower(1);
+                    IntakeRunning = true;
+                    IntakeTime.reset();
+                } else if (gamepad1.a && IntakeRunning && IntakeTime.seconds() > 0.5) {
+                    IntakeMotor.setPower(0);
+                    IntakeRunning = false;
+                    IntakeTime.reset();
                 }
 
+
+                if (gamepad1.x) {                // Evaluates x button pushed
+                    if (ReverseIntakeTime.seconds() > 0.25) {       // If the button has been held for 1/4 second
+                        IntakeMotor.setPower(-1);              // The intake rollers are reversed
+                        IntakeRunning = true;                  // The intake status is marked as running
+                    } else {                       // If the button has not been held for 1/4 second
+                        IntakeMotor.setPower(0);              // The intake rollers are stopped
+                        IntakeRunning = false;                  // The intake status is marked as stopped
+                    }
+                } else {                    // If x button has not been pushed
+                    ReverseIntakeTime.reset();               // The timer is reset
+                }
+
+
+                // issue motor power
+
+                Fleft.setPower(frontLeftPower);
+                Bleft.setPower(backLeftPower);
+                Fright.setPower(frontRightPower);
+                Bright.setPower(backRightPower);
+
             }
+
+        }
+    }
 
