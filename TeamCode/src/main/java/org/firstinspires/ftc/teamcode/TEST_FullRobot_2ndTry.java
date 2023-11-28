@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "DRIVE w In/Clw")
+@TeleOp(name = "FullRobot2ndTry")
 
 // This opmode has framework for all systems included, but only functions chassis, intake, and claw systems
 
@@ -34,14 +34,17 @@ public class TEST_FullRobot_2ndTry extends LinearOpMode {
     private double backRightPower = 0;     // declare motor power variable
     private double denominator = 1;        // declare motor power calculation variable
     private int precision = 2;          // chassis motor power reduction factor 1=full 2=1/2 power 4=1/4 power
-    private double liftPower = 0.7;        // declare lift motor power variable *******
+    private double liftPower = 0.5;        // declare lift motor power variable *******
+    private double ArmPower = 0.3;
     private boolean isClosed1 = false;      // Claw state variable
     private boolean isClosed2 = false;      // Claw state variable
     private boolean E_DoubleClose = false;  // Claw state variable
     private int ClawInput = 0;          // Claw button case variable
     private int LiftTarget = 0;         // Lift target position variable
+    private int ArmTarget = 0;
     private boolean BeganPressed = false;
     private boolean IntakeRunning = false;
+    private boolean ArmActive = true;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -187,18 +190,9 @@ public class TEST_FullRobot_2ndTry extends LinearOpMode {
             // check for lift movement input
 
             if (gamepad2.a && (LiftTime.seconds() > 1.0)) {
-                LeftLiftMotor.setTargetPosition(2000);
-                RightLiftMotor.setTargetPosition(2000);
-                LeftLiftMotor.setPower(0.7);
-                RightLiftMotor.setPower(0.7);
-                //LiftTarget = 2000;
-                ArmRotationMotor.setTargetPosition(-138);
-                ArmRotationMotor.setPower(0.6);
-                //LiftTime.reset();
-                //ArmRotationTime.reset();
-                sleep(2000);
-                ArmRotationMotor.setTargetPosition(880);
-                ArmRotationMotor.setPower(0.6);
+                LiftTarget = 2000;
+                ArmTarget = -138;
+                ArmTarget = 880;
             }else if (gamepad2.x && LiftTime.seconds() > 1.0) {
                 ArmRotationMotor.setTargetPosition(-138);
                 sleep(2000);
@@ -248,6 +242,16 @@ public class TEST_FullRobot_2ndTry extends LinearOpMode {
                     RightLiftMotor.setPower(liftPower);
                     LeftLiftMotor.setPower(liftPower);
                 }
+            if (RightLiftMotor.getCurrentPosition() > 200 && RightLiftMotor.getCurrentPosition() < 500 && ArmActive) {
+                ArmRotationMotor.setTargetPosition(-138);
+                ArmRotationMotor.setPower(0.3);
+            } else if (RightLiftMotor.getCurrentPosition() > 500 && ArmActive) {
+                ArmRotationMotor.setTargetPosition(880);
+                ArmRotationMotor.setPower(0.3);
+            } else {
+                ArmRotationMotor.setTargetPosition(0);
+                ArmRotationMotor.setPower(0.3);
+            }
 
                 // Drone code
 /*

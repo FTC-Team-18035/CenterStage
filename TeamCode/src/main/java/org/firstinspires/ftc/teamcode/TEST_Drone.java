@@ -14,11 +14,10 @@ public class TEST_Drone extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Servo Drone = hardwareMap.servo.get("Drone");
-        Drone.setPosition(0);
         waitForStart();
         while (opModeIsActive()){
             if(gamepad1.right_trigger == 1 && gamepad2.right_trigger == 1){
-                Drone.setPosition(1);
+                Drone.setPosition(0);
             }
                 /*DroneTime.reset();
                 BeganPressed = true;

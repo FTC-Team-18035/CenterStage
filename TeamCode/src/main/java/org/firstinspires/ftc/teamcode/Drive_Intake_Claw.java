@@ -185,7 +185,6 @@
 
 //DEACTIVATED
                 // check for lift movement input
-
                 if (gamepad2.a && (LiftTime.seconds() > 1.0)) {
                     LeftLiftMotor.setTargetPosition(2000);
                     RightLiftMotor.setTargetPosition(2000);

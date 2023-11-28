@@ -34,7 +34,7 @@
         private double backRightPower = 0;     // declare motor power variable
         private double denominator = 1;        // declare motor power calculation variable
         private int precision = 2;          // chassis motor power reduction factor 1=full 2=1/2 power 4=1/4 power
-        private double liftPower = 0.5;        // declare lift motor power variable *******
+        private double liftPower = 1;        // declare lift motor power variable *******
         private boolean isClosed1 = false;      // Claw state variable
         private boolean isClosed2 = false;      // Claw state variable
         private boolean E_DoubleClose = false;  // Claw state variable
@@ -56,7 +56,7 @@
             Servo Claw1 = hardwareMap.servo.get("Claw1");
             Servo Claw2 = hardwareMap.servo.get("Claw2");
 
-//            Servo Drone = hardwareMap.servo.get("Drone");
+            Servo Drone = hardwareMap.servo.get("Drone");
             DcMotor LeftLiftMotor = hardwareMap.dcMotor.get("Lift1");    // Lift Motors Name ???
             DcMotor RightLiftMotor = hardwareMap.dcMotor.get("Lift2");    // Lift Motors Name  ???
             DcMotor ArmRotationMotor = hardwareMap.dcMotor.get("ArmRotationMotor");
@@ -65,10 +65,10 @@
 
             // Reverse the right side motors
 
-            // Bleft.setDirection(DcMotorSimple.Direction.REVERSE);
+             Bleft.setDirection(DcMotorSimple.Direction.REVERSE);
             // Fleft.setDirection(DcMotorSimple.Direction.REVERSE);
-            // Fright.setDirection(DcMotorSimple.Direction.REVERSE);
-            // Bright.setDirection(DcMotorSimple.Direction.REVERSE);
+            Fright.setDirection(DcMotorSimple.Direction.REVERSE);
+            //Bright.setDirection(DcMotorSimple.Direction.REVERSE);
 
             IntakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -107,8 +107,8 @@
                 // check for driving input
 
                 double y = gamepad1.left_stick_y; // Remember, this is reversed!
-                double x = -gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-                double rx = -gamepad1.right_stick_x;
+                double x = -gamepad1.right_stick_x * 1.1; // Counteract imperfect strafing
+                double rx = -gamepad1.left_stick_x;
 
                 telemetry.update();
 
@@ -192,7 +192,7 @@
                     LiftTarget = 2000;
                     LiftTime.reset();
                 } else if (gamepad2.x && LiftTime.seconds() > 1.0) {
-                    LiftTarget = 0;
+                    LiftTarget = 10;
                     LiftTime.reset();
                 }
                /* else if (gamepad2.x && LiftTime.seconds() > 1.0){
@@ -201,8 +201,18 @@
                 }*/
                 else if (gamepad2.y && LiftTime.seconds() > 1.0) {
                     ArmActive = false;
+                    ArmRotationMotor.setTargetPosition(-138);
+                    ArmRotationMotor.setPower(0.3);
                     LiftTarget = 4280;
                     LiftTime.reset();
+                }
+                if(gamepad2.left_trigger == 1){
+                    LeftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    RightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    LeftLiftMotor.setTargetPosition(10);
+                    RightLiftMotor.setTargetPosition(10);
+                    LeftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    RightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 }
 
                 // if((gamepad2.dpad_up) && (LiftTarget + 10) < MAX_LIFT_HEIGHT){
@@ -216,6 +226,17 @@
                 }
 
                 // issue lift power for movement
+                if (RightLiftMotor.getCurrentPosition() > 200 && RightLiftMotor.getCurrentPosition() < 1900 && ArmActive) {
+                    ArmRotationMotor.setTargetPosition(-180);
+                    ArmRotationMotor.setPower(1);
+                } else if (RightLiftMotor.getCurrentPosition() >= 1950 && ArmActive) {
+                    ArmRotationMotor.setTargetPosition(880);
+                    ArmRotationMotor.setPower(1);
+                } else {
+                    ArmRotationMotor.setTargetPosition(0);
+                    ArmRotationMotor.setPower(1);
+                }
+
 
                 if (!(LiftTarget > MAX_LIFT_HEIGHT)) {
                     RightLiftMotor.setTargetPosition(LiftTarget);
@@ -223,29 +244,13 @@
                     RightLiftMotor.setPower(liftPower);
                     LeftLiftMotor.setPower(liftPower);
                 }
-                if (RightLiftMotor.getCurrentPosition() > 200 && RightLiftMotor.getCurrentPosition() < 500 && ArmActive) {
-                    ArmRotationMotor.setTargetPosition(-138);
-                    ArmRotationMotor.setPower(0.3);
-                } else if (RightLiftMotor.getCurrentPosition() > 500 && ArmActive) {
-                    ArmRotationMotor.setTargetPosition(880);
-                    ArmRotationMotor.setPower(0.3);
-                } else {
-                    ArmRotationMotor.setTargetPosition(0);
-                    ArmRotationMotor.setPower(0.3);
-                }
+
 
                 // Drone code
-             /*
-                if(gamepad1.b){
-                    DroneTime.reset();
-                    BeganPressed = true;
-                }
-                if(!gamepad1.b && DroneTime.seconds() > 3.0 && BeganPressed == true){
-                    Drone.setPosition(1);
-                }
-                else{BeganPressed = false;}
-DEACTIVATED
-*/
+
+                if(gamepad1.right_trigger == 1 && gamepad2.right_trigger == 1){
+                Drone.setPosition(0);
+            }
                 // Intake code
 
                 if (gamepad1.a && !IntakeRunning && IntakeTime.seconds() > 0.5) {
@@ -279,6 +284,9 @@ DEACTIVATED
                 Fright.setPower(frontRightPower);
                 Bright.setPower(backRightPower);
 
+
+                telemetry.addData("Right Lift Height", RightLiftMotor.getCurrentPosition());
+                telemetry.update();
             }
 
         }
