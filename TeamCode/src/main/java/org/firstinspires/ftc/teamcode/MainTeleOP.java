@@ -7,7 +7,7 @@
     import com.qualcomm.robotcore.hardware.DcMotorSimple;
     import com.qualcomm.robotcore.hardware.Servo;
     import com.qualcomm.robotcore.util.ElapsedTime;
-    @TeleOp(name = "Main TeleOP")
+    @TeleOp(name = "Main TeleOp")
 
     // This opmode has framework for all systems included
 
@@ -96,6 +96,8 @@
 
             LeftLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             RightLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+            ArmRotationMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             Claw1.setPosition(1);
             Claw2.setPosition(1);

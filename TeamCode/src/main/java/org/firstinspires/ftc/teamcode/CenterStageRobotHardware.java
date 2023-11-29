@@ -52,7 +52,6 @@ public class CenterStageRobotHardware {
         BackRight = map.get(DcMotor.class, "Bright");
         BackLeft = map.get(DcMotor.class, "Bleft");
         Claw = map.get(Servo.class, "Claw");
-        Imu = map.get(BNO055IMU.class, "imu");
 
         //Here we set the Orientation of the imu which is built into the control hub otherwise know as the "Chub"
        /* BNO055IMU.Parameters newImuParameters;
