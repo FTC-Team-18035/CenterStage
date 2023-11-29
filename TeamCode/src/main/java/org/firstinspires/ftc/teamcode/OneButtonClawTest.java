@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+@Disabled
 @TeleOp(name = "1 Button Test")//This line is saying that this is a TeleOp and is setting the name to "1 Button Test"
 public class OneButtonClawTest extends LinearOpMode {
     int TimesPressed = 0; //Here we create a variable that is going to save the amount of times that the "a" button is pressed

@@ -1,17 +1,17 @@
     package org.firstinspires.ftc.teamcode;
 
+    import com.qualcomm.robotcore.eventloop.opmode.Disabled;
     import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
     import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
     import com.qualcomm.robotcore.hardware.DcMotor;
     import com.qualcomm.robotcore.hardware.DcMotorSimple;
     import com.qualcomm.robotcore.hardware.Servo;
     import com.qualcomm.robotcore.util.ElapsedTime;
-
-    @TeleOp(name = "TEST Full Robot V1")
+    @TeleOp(name = "Main TeleOP")
 
     // This opmode has framework for all systems included
 
-    public class TEST_FullRobot_1stTry extends LinearOpMode {
+    public class MainTeleOP extends LinearOpMode {
         // variables
         static final double COUNTS_PER_MOTOR_REV = 288;    // eg: TETRIX Motor Encoder
         static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP

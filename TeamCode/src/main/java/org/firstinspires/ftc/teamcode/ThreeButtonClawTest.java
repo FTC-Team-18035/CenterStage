@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -10,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 // Sorry to keep beating the same drum, but I think it will be clear to you what is NOT happening when you state what is intended to happen :)
 // It's standard coding procedure for newbies and veterans for a good reason....
 
-
+@Disabled
 @TeleOp(name = "3 Button Claw")//This line declares that this file is a TeleOp and sets the name to "3 Button Claw"
 public class ThreeButtonClawTest extends LinearOpMode {
 
