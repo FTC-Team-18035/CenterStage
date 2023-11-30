@@ -25,6 +25,7 @@
         private ElapsedTime IntakeTime = new ElapsedTime();
         private ElapsedTime IntakeServoTime = new ElapsedTime();
         private ElapsedTime ReverseIntakeTime = new ElapsedTime();
+        private ElapsedTime ReverseDriveTime = new ElapsedTime();
 
         private ElapsedTime runtime = new ElapsedTime();    // sets up a timer function
         private ElapsedTime runtime2 = new ElapsedTime();    // sets up a timer function
@@ -43,6 +44,7 @@
         private boolean BeganPressed = false;
         private boolean IntakeRunning = false;
         private boolean ArmActive = true;
+        private boolean ReverseDriveActive = false;
 
         @Override
         public void runOpMode() throws InterruptedException {
@@ -107,10 +109,18 @@
             while (opModeIsActive()) {
 
                 // check for driving input
-
                 double y = gamepad1.left_stick_y; // Remember, this is reversed!
                 double x = -gamepad1.right_stick_x * 1.1; // Counteract imperfect strafing
                 double rx = -gamepad1.left_stick_x;
+                if(gamepad1.y) {
+                    y = -gamepad1.left_stick_y; // Remember, this is reversed!
+                     x = gamepad1.right_stick_x * 1.1; // Counteract imperfect strafing
+                     rx = gamepad1.left_stick_x;
+                }
+
+
+
+
 
                 telemetry.update();
 
@@ -193,8 +203,12 @@
                     ArmActive = true;
                     LiftTarget = 2000;
                     LiftTime.reset();
-                } else if (gamepad2.x && LiftTime.seconds() > 1.0) {
+                } else if (gamepad2.x && LiftTime.seconds() > 1.0 && ArmActive) {
                     LiftTarget = 10;
+                    LiftTime.reset();
+                }
+                else if (gamepad2.x && LiftTime.seconds() > 1.0 && !ArmActive){
+                    LiftTarget = 200;
                     LiftTime.reset();
                 }
                /* else if (gamepad2.x && LiftTime.seconds() > 1.0){
@@ -204,8 +218,8 @@
                 else if (gamepad2.y && LiftTime.seconds() > 1.0) {
                     ArmActive = false;
                     ArmRotationMotor.setTargetPosition(-138);
-                    ArmRotationMotor.setPower(0.3);
-                    LiftTarget = 4280;
+                    ArmRotationMotor.setPower(1);
+                    LiftTarget = 3300;
                     LiftTime.reset();
                 }
                 if(gamepad2.left_trigger == 1){
@@ -234,8 +248,12 @@
                 } else if (RightLiftMotor.getCurrentPosition() >= 1950 && ArmActive) {
                     ArmRotationMotor.setTargetPosition(880);
                     ArmRotationMotor.setPower(1);
-                } else {
+                } else if (ArmActive){
                     ArmRotationMotor.setTargetPosition(0);
+                    ArmRotationMotor.setPower(1);
+                }
+                else{
+                    ArmRotationMotor.setTargetPosition(200);
                     ArmRotationMotor.setPower(1);
                 }
 
